@@ -10,12 +10,13 @@ namespace PetShop.Service
         {
             var config = new ConsumerConfig
             {
-                GroupId = "new-pet-group-3",
+                GroupId = "test-consumer-group",
                 BootstrapServers = "localhost:9092",
-                AutoOffsetReset = AutoOffsetReset.Earliest
+                AutoOffsetReset = AutoOffsetReset.Earliest,
             };
 
             var consumer = new ConsumerBuilder<Ignore, string>(config).Build();
+
             consumer.Subscribe("new-pet");
 
             CancellationTokenSource cts = new CancellationTokenSource();
@@ -24,6 +25,8 @@ namespace PetShop.Service
                 e.Cancel = true;
                 cts.Cancel();
             };
+
+            Console.WriteLine("Connected to Kafka");
 
             try
             {
